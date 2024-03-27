@@ -12,9 +12,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if name == "Wall#2" or name == "Wall#4":
-		print(global_position, name)
-
 	if (-((ROOMSIZE/2)+1) <= global_position.x and global_position.x <= ROOMSIZE) and (-((ROOMSIZE/2)+1) <= global_position.z and global_position.z <= ROOMSIZE):
 		print(name)
 		if boxCollision is CollisionShape3D:
