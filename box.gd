@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends Node3D
 
 var rotating = false
 var prevMousePos
@@ -7,10 +7,15 @@ var windowWidth
 var rotatingX = false
 var rotatingZ = false
 
-# Rotation speed and decay rate
 var rotationSpeed = Vector2(0, 0)
 const decayRate = 0.9
 
+var boxCollision
+var boxMesh
+
+func _ready():
+	pass
+	
 func _process(delta):
 	windowWidth = get_viewport().size[0]
 	if Input.is_action_just_pressed("Rotate"):
@@ -24,11 +29,9 @@ func _process(delta):
 	if rotating:
 		nextMousePos = get_viewport().get_mouse_position()
 
-		# Update rotation speed
-		rotationSpeed.x = (nextMousePos.x - prevMousePos.x) * 0.1 * delta
-		rotationSpeed.y = (nextMousePos.y - prevMousePos.y) * 0.1 * delta
+		rotationSpeed.x = (nextMousePos.x - prevMousePos.x) * 0.07 * delta
+		rotationSpeed.y = (nextMousePos.y - prevMousePos.y) * 0.07 * delta
 
-		# Apply rotation
 		rotate_y(rotationSpeed.x)
 		if nextMousePos.x > windowWidth / 2:
 			rotate_z(-rotationSpeed.y)
@@ -42,10 +45,11 @@ func _process(delta):
 		prevMousePos = nextMousePos
 
 	else:
-		# Apply inertia scrolling when not rotating
 		rotationSpeed *= decayRate
 		rotate_y(rotationSpeed.x)
 		if rotatingZ:
 			rotate_z(-rotationSpeed.y)
 		elif rotatingX:
 			rotate_x(rotationSpeed.y)
+
+

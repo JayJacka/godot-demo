@@ -1,17 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://b07auciy2ujqh"]
+[gd_scene load_steps=7 format=3 uid="uid://b07auciy2ujqh"]
 
 [ext_resource type="Script" path="res://box.gd" id="1_hun78"]
 [ext_resource type="Script" path="res://camera.gd" id="2_bb3ul"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_8kwkc"]
-size = Vector3(30, 30, 30)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c3nd2"]
-albedo_color = Color(0.262745, 0.262745, 0.262745, 1)
+[ext_resource type="Script" path="res://wall.gd" id="2_ocamc"]
+[ext_resource type="Material" uid="uid://cv6bcnwloc3iy" path="res://floor.tres" id="3_rfd2h"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_6qjy1"]
-material = SubResource("StandardMaterial3D_c3nd2")
-size = Vector3(30, 30, 30)
+material = ExtResource("3_rfd2h")
+size = Vector3(2, 30, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8kwkc"]
+size = Vector3(2, 30, 30)
 
 [node name="Game" type="Node3D"]
 
@@ -19,18 +18,74 @@ size = Vector3(30, 30, 30)
 transform = Transform3D(0.707107, 0.353553, -0.612373, 1.25163e-08, 0.866025, 0.5, 0.707107, -0.353553, 0.612372, -27.297, 26.6604, 39.2154)
 shadow_enabled = true
 
-[node name="StaticBody3D" type="StaticBody3D" parent="."]
+[node name="Node3D" type="Node3D" parent="."]
 script = ExtResource("1_hun78")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-shape = SubResource("BoxShape3D_8kwkc")
+[node name="Wall#1" type="StaticBody3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+script = ExtResource("2_ocamc")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+[node name="BoxMesh" type="MeshInstance3D" parent="Node3D/Wall#1"]
 mesh = SubResource("BoxMesh_6qjy1")
 skeleton = NodePath("")
 
+[node name="BoxCollision" type="CollisionShape3D" parent="Node3D/Wall#1"]
+shape = SubResource("BoxShape3D_8kwkc")
+
+[node name="Wall#2" type="StaticBody3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+script = ExtResource("2_ocamc")
+
+[node name="BoxMesh" type="MeshInstance3D" parent="Node3D/Wall#2"]
+mesh = SubResource("BoxMesh_6qjy1")
+skeleton = NodePath("")
+
+[node name="BoxCollision" type="CollisionShape3D" parent="Node3D/Wall#2"]
+shape = SubResource("BoxShape3D_8kwkc")
+
+[node name="Wall#3" type="StaticBody3D" parent="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -14)
+script = ExtResource("2_ocamc")
+
+[node name="BoxMesh" type="MeshInstance3D" parent="Node3D/Wall#3"]
+mesh = SubResource("BoxMesh_6qjy1")
+skeleton = NodePath("")
+
+[node name="BoxCollision" type="CollisionShape3D" parent="Node3D/Wall#3"]
+shape = SubResource("BoxShape3D_8kwkc")
+
+[node name="Wall#4" type="StaticBody3D" parent="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 14)
+script = ExtResource("2_ocamc")
+
+[node name="BoxMesh" type="MeshInstance3D" parent="Node3D/Wall#4"]
+mesh = SubResource("BoxMesh_6qjy1")
+skeleton = NodePath("")
+
+[node name="BoxCollision" type="CollisionShape3D" parent="Node3D/Wall#4"]
+shape = SubResource("BoxShape3D_8kwkc")
+
+[node name="Floor" type="StaticBody3D" parent="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 1.91069e-15, 0, -14, 0)
+
+[node name="BoxMesh" type="MeshInstance3D" parent="Node3D/Floor"]
+mesh = SubResource("BoxMesh_6qjy1")
+skeleton = NodePath("")
+
+[node name="BoxCollision" type="CollisionShape3D" parent="Node3D/Floor"]
+shape = SubResource("BoxShape3D_8kwkc")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.183013, 0.683013, -1.41923e-08, 0.965926, 0.258819, -0.707107, -0.183013, 0.683013, 60, 30, 60)
+transform = Transform3D(0.707107, -0.183013, 0.683013, -1.41923e-08, 0.965926, 0.258819, -0.707107, -0.183013, 0.683013, 60, 20, 60)
 keep_aspect = 0
 fov = 90.0
 script = ExtResource("2_bb3ul")
+
+[connection signal="input_event" from="Node3D/Wall#1" to="Node3D/Wall#1" method="_on_input_event"]
+[connection signal="input_event" from="Node3D/Wall#1" to="Node3D" method="_on_static_body_3d_input_event"]
+[connection signal="input_event" from="Node3D/Wall#2" to="Node3D" method="_on_static_body_3d_input_event"]
+[connection signal="input_event" from="Node3D/Wall#2" to="Node3D/Wall#2" method="_on_input_event"]
+[connection signal="input_event" from="Node3D/Wall#3" to="Node3D" method="_on_static_body_3d_input_event"]
+[connection signal="input_event" from="Node3D/Wall#3" to="Node3D/Wall#3" method="_on_input_event"]
+[connection signal="input_event" from="Node3D/Wall#4" to="Node3D" method="_on_static_body_3d_input_event"]
+[connection signal="input_event" from="Node3D/Wall#4" to="Node3D/Wall#4" method="_on_input_event"]
