@@ -2,8 +2,8 @@ extends Camera3D
 
 # Parameters for zooming
 var zoomSpeed = 150
-var minZoomDistance = 50.0
-var maxZoomDistance = 300.0
+var minZoomDistance = 5.0
+var maxZoomDistance = 50.0
 var multiplier = 50
 
 # Zoom speed and decay rate
@@ -13,10 +13,10 @@ const zoomDecayRate = 0.85
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_pressed("ZoomInButton") || Input.is_action_just_released("ZoomInScroll"):
-		zoomVelocity += zoomSpeed * delta
+		zoomVelocity += zoomSpeed * 0.05 * delta
 		
 	elif Input.is_action_pressed("ZoomOutButton") || Input.is_action_just_released("ZoomOutScroll"):
-		zoomVelocity -= zoomSpeed * delta
+		zoomVelocity -= zoomSpeed * 0.05 * delta
 
 	# Apply inertia
 	zoomVelocity *= zoomDecayRate
@@ -31,9 +31,9 @@ func zoom(delta):
 	
 	# Clamp zoom level within min and max distances
 	#newZoom = clamp(newZoom, minZoomDistance, maxZoomDistance)
-	if (newZoom < minZoomDistance):
-		newZoom *= (1 + (minZoomDistance - newZoom)/minZoomDistance)
-	if (newZoom > maxZoomDistance):
+	if (newZoom <= minZoomDistance):
+		newZoom *= (1 + 2*(minZoomDistance - newZoom)/minZoomDistance)
+	if (newZoom >= maxZoomDistance):
 		newZoom *= (1 - 0.2*(newZoom - maxZoomDistance)/maxZoomDistance)
 	# Update camera position
 	var cameraPosition = get_global_transform().origin.normalized() * newZoom

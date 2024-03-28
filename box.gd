@@ -1,6 +1,7 @@
 extends Node3D
 
 var rotating = false
+var rotatingButton = false
 var prevMousePos
 var nextMousePos
 var windowWidth
@@ -25,6 +26,17 @@ func _process(delta):
 
 	if Input.is_action_just_released("Rotate"):
 		rotating = false
+		
+	if Input.is_action_just_pressed("RotateRight"):
+		rotatingButton = true
+		rotationSpeed = Vector2(delta, 0)
+	
+	if Input.is_action_just_pressed("RotateLeft"):
+		rotatingButton = true
+		rotationSpeed = Vector2(-delta, 0)
+	
+	if Input.is_action_just_released("RotateRight") || Input.is_action_just_released("RotateLeft"):
+		rotatingButton = false
 
 	if rotating:
 		nextMousePos = get_viewport().get_mouse_position()
@@ -43,6 +55,9 @@ func _process(delta):
 			rotatingZ = false
 
 		prevMousePos = nextMousePos
+	
+	elif rotatingButton:
+		rotate_y(rotationSpeed.x)
 
 	else:
 		rotationSpeed *= decayRate
