@@ -1,5 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://b07auciy2ujqh"]
+[gd_scene load_steps=18 format=3 uid="uid://b07auciy2ujqh"]
 
+[ext_resource type="Script" path="res://placement.gd" id="1_2kg1e"]
 [ext_resource type="Script" path="res://box.gd" id="1_hun78"]
 [ext_resource type="Script" path="res://camera.gd" id="2_bb3ul"]
 [ext_resource type="Script" path="res://wall.gd" id="2_ocamc"]
@@ -44,6 +45,7 @@ size = Vector3(0.3, 5, 5)
 size = Vector3(0.3, 5, 5)
 
 [node name="Game" type="Node3D"]
+script = ExtResource("1_2kg1e")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
 
@@ -112,7 +114,7 @@ skeleton = NodePath("")
 shape = SubResource("BoxShape3D_8kwkc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, -0.183013, 0.683013, -1.41923e-08, 0.965926, 0.258819, -0.707107, -0.183013, 0.683013, 10, 5, 10)
+transform = Transform3D(0.707107, -0.183013, 0.683013, -1.41923e-08, 0.965926, 0.258819, -0.707107, -0.183013, 0.683013, 10, 3, 10)
 keep_aspect = 0
 fov = 90.0
 script = ExtResource("2_bb3ul")

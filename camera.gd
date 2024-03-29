@@ -30,7 +30,7 @@ func zoom(delta):
 	var newZoom = get_global_transform().origin.length() - delta
 	
 	# Clamp zoom level within min and max distances
-	#newZoom = clamp(newZoom, minZoomDistance, maxZoomDistance)
+	
 	if (newZoom <= minZoomDistance):
 		newZoom *= (1 + 2*(minZoomDistance - newZoom)/minZoomDistance)
 	if (newZoom >= maxZoomDistance):
