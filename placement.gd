@@ -25,13 +25,13 @@ func _input(event):
 		var result = space_state.intersect_ray(query)
 		if (!result.is_empty()):
 			print(result['position'])
-			createItem(result['position'], result['collider'])
+			createItem(result['position'], result['collider'], result['normal'])
 				
 var ITEM_SIZE = Vector3(0.5, 0.5, 0.5)		
 
 const black_mat = preload("res://black.tres")
 
-func createItem(target_position, collider):
+func createItem(target_position, collider, normal):
 	var item = StaticBody3D.new()
 	item.set_name("node")
 	var mesh = MeshInstance3D.new()
@@ -45,6 +45,6 @@ func createItem(target_position, collider):
 	item.add_child(collision)
 	collider.add_child(item)
 	var added_item = collider.get_child(-1)
-	added_item.global_position = Vector3(target_position.x + (ITEM_SIZE.x * 0.5), target_position.y + (ITEM_SIZE.y * 0.5), target_position.z + (ITEM_SIZE.z * 0.5))
+	added_item.global_position = Vector3(target_position.x + (ITEM_SIZE.x * normal.x * 0.5), target_position.y + (ITEM_SIZE.y * normal.y * 0.5), target_position.z + (ITEM_SIZE.z * normal.z * 0.5))
 	print("added ", added_item.global_position)
 		
