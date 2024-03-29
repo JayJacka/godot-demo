@@ -15,7 +15,7 @@ func _process(delta):
 const RAY_LENGTH = 1000.0
 
 func _input(event):
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseButton and event.pressed and event.button_index == 1:
 		var camera3d = $Camera3D
 		var from = camera3d.project_ray_origin(event.position)
 		var to = from + camera3d.project_ray_normal(event.position) * RAY_LENGTH
@@ -25,15 +25,26 @@ func _input(event):
 		var result = space_state.intersect_ray(query)
 		if (!result.is_empty()):
 			print(result['position'])
-			var collider = result['collider']
-			if collider is StaticBody3D:
-				var children = collider.get_children()
-				var mesh: MeshInstance3D
-				var collision: CollisionShape3D
-				for child in children:
-					if child is MeshInstance3D:
-						mesh = child
-					elif child is CollisionShape3D:
-						collision = child
+			createItem(result['position'], result['collider'])
 				
+var ITEM_SIZE = Vector3(0.5, 0.5, 0.5)		
+
+const black_mat = preload("res://black.tres")
+
+func createItem(target_position, collider):
+	var item = StaticBody3D.new()
+	item.set_name("node")
+	var mesh = MeshInstance3D.new()
+	mesh.set_name("item mesh")
+	mesh.mesh = BoxMesh.new()
+	mesh.mesh.set_size(ITEM_SIZE)
+	mesh.mesh.surface_set_material(0, black_mat)
+	var collision = CollisionShape3D.new()
+	collision.set_name("item coll")
+	item.add_child(mesh)
+	item.add_child(collision)
+	collider.add_child(item)
+	var added_item = collider.get_child(-1)
+	added_item.global_position = Vector3(target_position.x + (ITEM_SIZE.x * 0.5), target_position.y + (ITEM_SIZE.y * 0.5), target_position.z + (ITEM_SIZE.z * 0.5))
+	print("added ", added_item.global_position)
 		

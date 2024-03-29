@@ -1,17 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://b07auciy2ujqh"]
+[gd_scene load_steps=16 format=3 uid="uid://b07auciy2ujqh"]
 
 [ext_resource type="Script" path="res://placement.gd" id="1_2kg1e"]
 [ext_resource type="Script" path="res://box.gd" id="1_hun78"]
 [ext_resource type="Script" path="res://camera.gd" id="2_bb3ul"]
 [ext_resource type="Script" path="res://wall.gd" id="2_ocamc"]
 [ext_resource type="Material" uid="uid://cv6bcnwloc3iy" path="res://floor.tres" id="3_rfd2h"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_ixxul"]
-radius = 0.2
-height = 0.4
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_ppjdp"]
-radius = 0.2
 
 [sub_resource type="BoxMesh" id="BoxMesh_tm17w"]
 size = Vector3(0.3, 4, 5)
@@ -46,14 +39,6 @@ size = Vector3(0.3, 5, 5)
 
 [node name="Game" type="Node3D"]
 script = ExtResource("1_2kg1e")
-
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
-mesh = SubResource("SphereMesh_ixxul")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("SphereShape3D_ppjdp")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, 0.353553, -0.612373, 1.25163e-08, 0.866026, 0.5, 0.707107, -0.353553, 0.612373, -21.1838, 14.6604, 24.6501)
