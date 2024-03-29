@@ -17,8 +17,20 @@ func _process(delta):
 			boxCollision.disabled = true
 		if boxMesh is MeshInstance3D:
 			boxMesh.visible = false
+		for child in get_children():
+			for grand_child in child.get_children():
+				if grand_child is CollisionShape3D:
+					grand_child.disabled = true
+				elif grand_child is MeshInstance3D:
+					grand_child.visible = false
 	else:
 		if boxCollision is CollisionShape3D:
 			boxCollision.disabled = false
 		if boxMesh is MeshInstance3D:
 			boxMesh.visible = true
+		for child in get_children():
+			for grand_child in child.get_children():
+				if grand_child is CollisionShape3D:
+					grand_child.disabled = false
+				elif grand_child is MeshInstance3D:
+					grand_child.visible = true
