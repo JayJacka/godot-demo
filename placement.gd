@@ -26,6 +26,7 @@ func _input(event):
 		if (!result.is_empty()):
 			print(result['position'])
 			createItem(result['position'], result['collider'], result['normal'])
+			
 	elif event is InputEventMouseMotion:
 		var camera3d = $Camera3D
 		var from = camera3d.project_ray_origin(event.position)
@@ -40,6 +41,7 @@ func _input(event):
 var ITEM_SIZE = Vector3(0.5, 0.5, 0.5)		
 
 const black_mat = preload("res://black.tres")
+const trans_mat = preload("res://translucent.tres")
 
 func clearPlaceholder():
 	for child in get_children():
@@ -55,7 +57,7 @@ func createPlaceholder(target_position, collider, normal):
 	mesh.set_name("item mesh")
 	mesh.mesh = BoxMesh.new()
 	mesh.mesh.set_size(ITEM_SIZE)
-	mesh.mesh.surface_set_material(0, black_mat)
+	mesh.mesh.surface_set_material(0, trans_mat)
 	var collision = CollisionShape3D.new()
 	collision.set_name("item coll")
 	item.add_child(mesh)
