@@ -37,6 +37,8 @@ func _input(event):
 		var result = space_state.intersect_ray(query)
 		if (!result.is_empty()):
 			createPlaceholder(result['position'], result['collider'], result['normal'])
+		else:
+			clearPlaceholder()
 				
 var ITEM_SIZE = Vector3(0.5, 0.5, 0.5)		
 
